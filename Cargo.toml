@@ -1,0 +1,13 @@
+[package]
+name = "egui-neko"
+description = "Neko for Egui"
+version = "0.1.0"
+edition = "2024"
+license = "MPL-2.0"
+
+[dependencies]
+egui = "0.32.0"
+egui_extras = { version = "0.32.0", features = ["image"] }
+
+[dev-dependencies]
+eframe = "0.32.0"
