@@ -2,6 +2,8 @@
 
 This is a port of [Neko](https://en.wikipedia.org/wiki/Neko_(software)) to egui.
 
+![A screenshot of Neko. A cat is chasing an invisible cursor across the screen.](./screenshot.png)
+
 ## Usage
 
 See the examples. Make sure to install the image loaders.
