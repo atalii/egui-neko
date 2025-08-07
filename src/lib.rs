@@ -2,53 +2,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-use egui::{self, NumExt, Pos2, Rect, Vec2, include_image, widgets};
-use std::sync::LazyLock;
+use egui::{self, NumExt, Pos2, Rect, Vec2, widgets};
 
-static LEFT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/left1.png")),
-    LazyLock::new(|| include_image!("assets/left2.png")),
-];
-
-static RIGHT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/right1.png")),
-    LazyLock::new(|| include_image!("assets/right2.png")),
-];
-
-static DOWN_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/down1.png")),
-    LazyLock::new(|| include_image!("assets/down2.png")),
-];
-
-static DOWNLEFT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/downleft1.png")),
-    LazyLock::new(|| include_image!("assets/downleft2.png")),
-];
-
-static DOWNRIGHT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/downright1.png")),
-    LazyLock::new(|| include_image!("assets/downright2.png")),
-];
-
-static UP_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/up1.png")),
-    LazyLock::new(|| include_image!("assets/up2.png")),
-];
-
-static UPLEFT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/upleft1.png")),
-    LazyLock::new(|| include_image!("assets/upleft2.png")),
-];
-
-static UPRIGHT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/upright1.png")),
-    LazyLock::new(|| include_image!("assets/upright2.png")),
-];
-
-static WASH_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
-    LazyLock::new(|| include_image!("assets/wash1.png")),
-    LazyLock::new(|| include_image!("assets/wash2.png")),
-];
+mod images;
+use images::*;
 
 /// The [Neko] struct stores the state of the cat such that it can follow the cursor appropriately.
 pub struct Neko {
