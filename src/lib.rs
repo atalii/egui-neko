@@ -80,9 +80,18 @@ impl Animation for SleepingNeko {
             return Some(Box::new(WakingNeko::default()));
         }
 
+        let animation_state = match books.ticker / 10 % 100 {
+            x if x <= 50 => 0,
+            x if x <= 60 => 1,
+            x if x <= 70 => 0,
+            x if x <= 90 => 2,
+            x if x <= 100 => 3,
+            _ => unreachable!(),
+        };
+
         let min = books.pos;
         let max = (min + Vec2::new(32f32, 32f32)).at_most(ui.max_rect().max);
-        let image = WASH_IMAGES[(books.ticker / 10) % 2].clone();
+        let image = SLEEPING_IMAGES[animation_state].clone();
         ui.put(Rect { min, max }, widgets::Image::new(image));
         None
     }

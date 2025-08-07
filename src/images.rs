@@ -43,7 +43,9 @@ pub static UPRIGHT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
     LazyLock::new(|| include_image!("assets/upright2.png")),
 ];
 
-pub static WASH_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
+pub static SLEEPING_IMAGES: [LazyLock<egui::ImageSource>; 4] = [
+    LazyLock::new(|| include_image!("assets/yawn1.png")),
+    LazyLock::new(|| include_image!("assets/yawn2.png")),
     LazyLock::new(|| include_image!("assets/wash1.png")),
     LazyLock::new(|| include_image!("assets/wash2.png")),
 ];
