@@ -59,6 +59,12 @@ impl Neko {
     pub fn draw(&mut self, ui: &mut egui::Ui) {
         self.bookkeeping.ticker = self.bookkeeping.ticker.wrapping_add(1);
 
+        // Push the cat inside the window if need be.
+        self.bookkeeping.pos = self
+            .bookkeeping
+            .pos
+            .at_most(ui.max_rect().max - Vec2::new(32f32, 32f32));
+
         if let Some(cursor_pos) = ui.input(|state| state.pointer.latest_pos()) {
             self.bookkeeping.last_cursor_pos = cursor_pos;
         };
@@ -89,10 +95,7 @@ impl Animation for SleepingNeko {
             _ => unreachable!(),
         };
 
-        let min = books.pos;
-        let max = (min + Vec2::new(32f32, 32f32)).at_most(ui.max_rect().max);
-        let image = SLEEPING_IMAGES[animation_state].clone();
-        ui.put(Rect { min, max }, widgets::Image::new(image));
+        draw_frame(ui, SLEEPING_IMAGES[animation_state].clone(), books.pos);
         None
     }
 }
@@ -112,10 +115,7 @@ impl Animation for WakingNeko {
         self.timer += 1;
 
         if self.timer < 30 {
-            let min = books.pos;
-            let max = (min + Vec2::new(32f32, 32f32)).at_most(ui.max_rect().max);
-            let image = WAKING_IMAGE.clone();
-            ui.put(Rect { min, max }, widgets::Image::new(image));
+            draw_frame(ui, WAKING_IMAGE.clone(), books.pos);
             None
         } else {
             Some(Box::new(RunningNeko {
@@ -152,9 +152,6 @@ impl Animation for RunningNeko {
             self.step(books);
         }
 
-        let min = books.pos;
-        let max = (min + Vec2::new(32f32, 32f32)).at_most(ui.max_rect().max);
-
         let image = match self.direction {
             Direction::RIGHT => &RIGHT_IMAGES,
             Direction::LEFT => &LEFT_IMAGES,
@@ -167,7 +164,7 @@ impl Animation for RunningNeko {
         }[(books.ticker / 10) % 2]
             .clone(); // Cloning looks bad, but internally, an ImageSource will utilize Cows, so it should be okay.
 
-        ui.put(Rect { min, max }, widgets::Image::new(image));
+        draw_frame(ui, image, books.pos);
         None
     }
 }
@@ -217,4 +214,12 @@ impl Direction {
             panic!("Checks are exhaustive. Didn't match {angle}")
         }
     }
+}
+
+fn draw_frame<'a>(ui: &mut egui::Ui, image: egui::ImageSource<'a>, pos: Pos2) {
+    let win_max = ui.max_rect().max;
+
+    let min = pos.at_most(win_max - Vec2::new(32f32, 32f32));
+    let max = min + Vec2::new(32f32, 32f32);
+    ui.put(Rect { min, max }, widgets::Image::new(image));
 }
