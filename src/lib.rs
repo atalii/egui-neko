@@ -48,9 +48,7 @@ impl Neko {
                 speed: 12f32,
                 ticker: 0,
             },
-            animation: Box::new(RunningNeko {
-                direction: Direction::RIGHT, // TODO: sleeping, wake animation
-            }),
+            animation: Box::new(SleepingNeko),
         };
     }
 
