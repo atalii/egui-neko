@@ -20,4 +20,4 @@ The example code is modified from that in the egui repository.
 
 ## Missing Features
 
-I haven't implemented the waking animation or the clawing behavior yet. My aplogies :(
+I haven't implemented the clawing behavior yet. My aplogies :(
