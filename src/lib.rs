@@ -34,6 +34,9 @@ trait Animation {
 }
 
 struct SleepingNeko;
+struct WakingNeko {
+    timer: usize,
+}
 struct RunningNeko {
     direction: Direction,
 }
@@ -74,11 +77,7 @@ impl Animation for SleepingNeko {
     ) -> Option<Box<dyn Animation>> {
         // If the cursor has gotten far enough away, wake up.
         if books.last_cursor_pos.distance(books.pos) >= books.speed * 3. {
-            return Some(Box::new(RunningNeko {
-                // Since the first thing that happens in the RunningNeko `display` call is to set
-                // the direction, we're fine just setting this arbitrarily.
-                direction: Direction::RIGHT,
-            }));
+            return Some(Box::new(WakingNeko::default()));
         }
 
         let min = books.pos;
@@ -86,6 +85,36 @@ impl Animation for SleepingNeko {
         let image = WASH_IMAGES[(books.ticker / 10) % 2].clone();
         ui.put(Rect { min, max }, widgets::Image::new(image));
         None
+    }
+}
+
+impl Default for WakingNeko {
+    fn default() -> Self {
+        Self { timer: 0 }
+    }
+}
+
+impl Animation for WakingNeko {
+    fn display(
+        &mut self,
+        ui: &mut egui::Ui,
+        books: &mut NekoBookkeeping,
+    ) -> Option<Box<dyn Animation>> {
+        self.timer += 1;
+
+        if self.timer < 30 {
+            let min = books.pos;
+            let max = (min + Vec2::new(32f32, 32f32)).at_most(ui.max_rect().max);
+            let image = WAKING_IMAGE.clone();
+            ui.put(Rect { min, max }, widgets::Image::new(image));
+            None
+        } else {
+            Some(Box::new(RunningNeko {
+                // Since the first thing that a running neko does is step forward, we can pick this
+                // direction arbitrarily, and it'll always be overriden with the correct one.
+                direction: Direction::RIGHT,
+            }))
+        }
     }
 }
 

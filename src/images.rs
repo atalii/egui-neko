@@ -1,6 +1,8 @@
 use egui::include_image;
 use std::sync::LazyLock;
 
+pub static WAKING_IMAGE: egui::ImageSource = include_image!("assets/awake.png");
+
 pub static LEFT_IMAGES: [LazyLock<egui::ImageSource>; 2] = [
     LazyLock::new(|| include_image!("assets/left1.png")),
     LazyLock::new(|| include_image!("assets/left2.png")),
