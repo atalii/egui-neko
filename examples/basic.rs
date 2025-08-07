@@ -1,4 +1,4 @@
-use eframe::egui;
+use eframe::egui::{self, ThemePreference};
 use egui_neko;
 
 fn main() {
@@ -8,6 +8,11 @@ fn main() {
         native_options,
         Box::new(|cc| {
             egui_extras::install_image_loaders(&cc.egui_ctx);
+
+            // Use a light theme for the purposes of the demo. It's hard to see the cat's whispers
+            // against a black background.
+            cc.egui_ctx.set_theme(ThemePreference::Light);
+
             Ok(Box::new(NekoApp::new(cc)))
         }),
     )
